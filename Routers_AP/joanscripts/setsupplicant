@@ -1,0 +1,9 @@
+#!/bin/bash
+
+kill -s 9 $(ps w | grep wlan2 | awk '{print $1}' | head -n -1)
+bash /joanscripts/reassociate
+if [ "$(uci show wireless.default_radio2.mode | tail -c +31 | head -c -2)" = "ap" ]; then
+	wpa_supplicant -B -D nl80211 -i wlan2 -c /etc/wpa_supplicant_ap.conf
+else
+	wpa_supplicant -B -D nl80211 -i wlan2 -c /etc/wpa_supplicant_sta.conf
+fi

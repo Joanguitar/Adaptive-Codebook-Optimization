@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo 1 > /joanscripts/variables/bool_wipedump

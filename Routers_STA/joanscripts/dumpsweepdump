@@ -1,0 +1,20 @@
+#!/bin/bash
+
+LHEAD=`head -n 1 /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/sweep_dump_cur`
+WRONG=$(cat /joanscripts/variables/wrongsweepdumpline)
+while [ "$(cat /joanscripts/variables/bool_wipedump)" != "2" ] 
+do
+   if [ "$(cat /joanscripts/variables/bool_wipedump)" == "1" ]; then
+	echo > /joanscripts/variables/sweepdump
+	echo 0 > /joanscripts/variables/bool_wipedump
+   elif [ "$(cat /joanscripts/variables/bool_wipedump)" == "0" ]; then
+	AHEAD=`head -n 1 /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/sweep_dump_cur`
+   	if [ "$AHEAD" != "$LHEAD" ]; then
+       		LHEAD=$AHEAD
+       		if [ "$(head -n 3 /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/sweep_dump_cur | tail -n 1)" != "$WRONG" ]; then
+           		tail -n +3 /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/sweep_dump_cur | head -n -1 >> /joanscripts/variables/sweepdump
+       		fi
+	fi
+   fi
+   sleep 0.01
+done

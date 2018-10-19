@@ -1,0 +1,8 @@
+#!/bin/bash
+
+bash /joanscripts/reassociate
+while [ "$(bash /joanscripts/connectedstations | wc -l)" = "0" ]; do
+	sleep 0.1
+done
+sleep 2
+bash /joanscripts/opendump

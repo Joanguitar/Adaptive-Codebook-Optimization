@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$(ps w | grep dontletconnectiondie -s | wc -l)" -gt "1" ]; then
+	echo already running alwaysalive
+else
+	bash /joanscripts/dontletconnectiondie &>/dev/null &
+fi

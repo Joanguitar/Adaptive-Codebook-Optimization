@@ -1,0 +1,11 @@
+#!/bin/bash
+
+kill -s 9 $(ps w | grep wlan2 | awk '{print $1}') &>/dev/null &
+ip link set wlan2 down
+rmmod wil6210;modprobe wil6210
+ifconfig wlan2 $(uci show network.wlan2.ipaddr | tail -c +23 | head -c -2) netmask 255.255.255.0 up
+if [ "$(uci show wireless.default_radio2.mode | tail -c +31 | head -c -2)" = "ap" ]; then
+	wpa_supplicant -B -D nl80211 -i wlan2 -c /etc/wpa_supplicant_ap.conf
+else
+	wpa_supplicant -B -D nl80211 -i wlan2 -c /etc/wpa_supplicant_sta.conf
+fi

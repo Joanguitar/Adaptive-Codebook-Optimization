@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while [ "$(bash /joanscripts/connectedstations | wc -l)" = "1" ]; do
+	sleep 0.01
+done

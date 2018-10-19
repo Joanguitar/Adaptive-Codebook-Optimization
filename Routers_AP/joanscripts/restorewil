@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cp /joanscripts/variables/wil6210_orig.brd /lib/firmware/wil6210.brd

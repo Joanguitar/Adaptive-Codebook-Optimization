@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$(ps w | grep iperf3 -s | wc -l)" = "2" ]; then
+	echo iperf already running
+else
+	iperf3 -s &>/dev/null &
+fi

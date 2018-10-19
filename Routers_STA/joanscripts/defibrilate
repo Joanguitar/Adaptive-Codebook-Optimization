@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ "$(cat /joanscripts/variables/sweepdump)" == "2" ]; then
+	bash /joanscripts/stopsweepdump
+	sleep 0.1
+	bash /joanscripts/reassociate
+else
+	bash /joanscripts/stopsweepdump
+	sleep 0.1
+	bash /joanscripts/reassociate
+	sleep 1
+	bash /joanscripts/startsweepdump
+fi

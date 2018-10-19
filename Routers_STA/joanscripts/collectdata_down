@@ -1,0 +1,18 @@
+#!/bin/bash
+
+IP=$(cat /joanscripts/variables/APIP)
+Remaining=10
+echo > /joanscripts/variables/channelresult
+iperf3 -c $IP -i 0.1 -t 10 -R &> /joanscripts/variables/iperfresult &
+while [ "$Remaining" != "0" ]; do
+	sleep 1
+	let Remaining-=1
+	READ=$(cat /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/link)
+	TXMCS=$(echo "$READ" | grep Tx_mcs | tail -c +12)
+	RXMCS=$(echo "$READ" | grep Rx_mcs | tail -c +12)
+	SQ=$(echo "$READ" | grep SQ | tail -c +12)
+	echo "Tx_mcs: $TXMCS Rx_mcs: $RXMCS SQ: $SQ" >> /joanscripts/variables/channelresult
+done
+sleep 1
+cat /joanscripts/variables/channelresult
+cat /joanscripts/variables/iperfresult

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+Idle=10000 			# Delay (ms) "If connexion is dead for more that this time this script will take action"
+
+Remaining=Idle
+ReallyDead=0
+while [ "0" = "0" ]; do
+	sleep 1
+	let Remaining=Idle
+	let ReallyDead=0
+	clear
+	while [ "$(bash /joanscripts/connectedstations | wc -l)" = "0" ]; do		# Check if the driver is dead
+		if [ "$(uci show wireless.default_radio2.mode | tail -c +31 | head -c -2)" = "sta" ]; then
+			killall iperf3 &>/dev/null & 					# If connexion is lost while doing iperf, kill iperf
+		else
+			killall iperf3 &>/dev/null & 					# If connexion is lost while doing iperf, kill iperf
+			bash /joanscripts/runiperf &>/dev/null & 			# Then restart iperf
+		fi
+		sleep 0.5
+		let Remaining-=500
+		if [ "$Remaining" = "0" ]; then # Check if time has past
+			if [ "$ReallyDead" = "1" ]; then				# Second time the script takes action cuts the newdump script
+				echo destroying newdump
+				kill -s 9 $(ps w | grep newdump | awk '{print $1}' | head -n -1) &>/dev/null &
+				let Remaining=Idle
+				let ReallyDead=0
+			else								# First time the script takes action it reloads the driver
+				echo reloading driver
+				bash /joanscripts/reloaddriver
+				let Remaining=Idle
+				let ReallyDead=1
+				sleep 1
+			fi
+
+		fi
+	done
+done

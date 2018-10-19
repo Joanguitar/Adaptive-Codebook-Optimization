@@ -1,0 +1,2 @@
+#!/bin/bash
+cat /sys/kernel/debug/ieee80211/$(ls /sys/kernel/debug/ieee80211/ | tail -n1)/wil6210/stations | grep connected
