@@ -20,5 +20,5 @@ The main python script for measuring is “RunExperiments_v2Dev.py”. In this s
 Then you can find two other scripts to show results “VisualizeData_v2.py” and “VisualizeSimpleData.py”.
 There’s another script “SaveDATA_MAT.py” that translates the experiments measures to a MatLab file so you can analyze the results using MatLab.
 
-## Contact details
-If you have any doubt, please email me at joan.palacios@imdea.org
+## Contact
+[Joan Palacios](https://scholar.google.es/citations?user=tTH1m20AAAAJ) [joan.palacios@imdea.org]
