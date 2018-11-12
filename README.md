@@ -1,14 +1,14 @@
 # Adaptive-Codebook-Optimization
 This code is intended for replicating the results of the paper presented in Mobicom 2018:
 
-"Joan Palacios, Daniel Steinmetzer, Adrian Loch, Matthias Hollick, and Joerg Widmer. 2018. Adaptive Codebook Optimization for Beam Training on Off-The-Shelf IEEE 802.11ad Devices. In Proceedings of the 24th ACM Annual International Conference on Mobile Computing and Networking."
+["Joan Palacios, Daniel Steinmetzer, Adrian Loch, Matthias Hollick, and Joerg Widmer. 2018. Adaptive Codebook Optimization for Beam Training on Off-The-Shelf IEEE 802.11ad Devices. In Proceedings of the 24th ACM Annual International Conference on Mobile Computing and Networking."](http://eprints.networks.imdea.org/1880/)
 
 ## Requirements
 1.	Two TALON7200AD routers (one will act as AP and the other as STA)
 2.	A PC with ssh, scp and Python installed
 
 ## Routers configuration
-1.	Routers must be flashed with Daniel’s firmware.
+1.	Routers must be flashed with the firmware modification made by Daniel Steinmetzer that you can find in this [link](https://github.com/seemoo-lab/lede-ad7200).
 2.	Then, you should copy the folders Router_AP and Router_STA in each router’s main folder. This will configure them to act as AP and STA and to create a Wi-Fi Network with SSID “ACOTalon” and password “TalonACO”, so you can access the AP with IP “192.168.4.2” and the STA with IP “192.168.4.3”. Please, remember to configure a static IP in your PC that doesn’t create a conflict with your router’s ones.
 3.	You must set a password for the root user in the routers using command “passwd root”.
 Step 1 allows you to read the per sector RSSI and SNR measured by the routers
