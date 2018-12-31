@@ -22,8 +22,8 @@ gain_val=1                               # On antenna gain value
 ampl_val=1                               # On antenna amplifier value
 
 # Derivated parameters
-APs_IP = ['192.168.2.%i'%(a+1) for a in APs_ID]                # APs IPs
-STAs_IP = ['192.168.2.%i'%(a+1) for a in STAs_ID]              # STAs IPs
+APs_IP = ['192.168.4.%i'%(a+1) for a in APs_ID]                # APs IPs
+STAs_IP = ['192.168.4.%i'%(a+1) for a in STAs_ID]              # STAs IPs
 IDs=APs_ID+STAs_ID                                             # combine IDs sets
 IPs=APs_IP+STAs_IP                                             # combine IPs sets
 N_devices=len(IPs)                                             # Number of devices
@@ -37,7 +37,7 @@ codebook_comm.initialize_default(communication_redundancy)
 
 # Define connected stations
 for ii in [ii for ii in range(N_devices) if Roles[ii]=='sta']:
-    talons[ii]._host.execute_cmd('echo 10.0.0.%i > /joanscripts/variables/APIP'%(IDs[Connected[ii]])) # This line may change with the IP selected for the 60GHz interface
+    talons[ii]._host.execute_cmd('echo 192.168.100.%i > /joanscripts/variables/APIP'%(IDs[Connected[ii]]+1)) # This line may change with the IP selected for the 60GHz interface
 
 # Reload driver if not reloaded
 for talon in talons:
@@ -161,12 +161,12 @@ for rep in range(Repetitions):
                 talon._host.execute_cmd('killall iperf3 2> /dev/null')                                      # Kill iperf on the AP side
                 talon._host.execute_cmd('iperf3 -s &>/dev/null &')                                          # Start iperf on the AP side
             mytalon._host.execute_cmd('killall iperf3 2> /dev/null')                                        # Kill iperf on the STA side
-            cmdout=mytalon._host.execute_cmd('bash /joanscripts/collectdata').decode()[:-1]                 # Collect the data
+            cmdout=mytalon._host.execute_cmd('bash /joanscripts/collectdata_down').decode()[:-1]                 # Collect the data
             while cmdout[-4:]=='able':                                                                      # Insist to collect data untill you're able to
                 mytalon._host.execute_cmd('killall iperf3 2> /dev/null')
                 mytalon._host.execute_cmd('bash /joanscripts/defibrilate')
                 time.sleep(dump_wait_time)
-                cmdout=mytalon._host.execute_cmd('bash /joanscripts/collectdata').decode()[:-1]
+                cmdout=mytalon._host.execute_cmd('bash /joanscripts/collectdata_down').decode()[:-1]
             return cmdout
             
         # Initialization
@@ -226,7 +226,7 @@ for rep in range(Repetitions):
                     iperf_mean=-1
                     for iiii in range(iperf_redundancy):
                         cmdout=CollectData(talons[jj])
-                        channel_data_candidate=methods[jj].ParseData(cmdout)
+                        channel_data_candidate=methods[jj].ParseData_Down(cmdout)
                         iperf_mean_candidate=np.mean(channel_data_candidate['Bandwidth'])
                         if iperf_mean_candidate>iperf_mean:
                             iperf_mean=iperf_mean_candidate
