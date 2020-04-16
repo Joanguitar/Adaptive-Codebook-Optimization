@@ -20,5 +20,11 @@ The main python script for measuring is “RunExperiments_v2Dev.py”. In this s
 Then you can find two other scripts to show results “VisualizeData_v2.py” and “VisualizeSimpleData.py”.
 There’s another script “SaveDATA_MAT.py” that translates the experiments measures to a MatLab file so you can analyze the results using MatLab.
 
+## Warning:
+This code is designed for a very specific version of a Talon7200 firmware patch and it may not work properly under other versions due to parsing problems.
+That's why I created a more flexible interface with an intuitive measurement pipeline where you can plug your device measurements.
+You can find it in the following repository:
+[ACO](https://github.com/Joanguitar/ACO)
+
 ## Contact
 [Joan Palacios](https://scholar.google.es/citations?user=tTH1m20AAAAJ) [joan.palacios@imdea.org]
